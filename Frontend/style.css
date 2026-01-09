@@ -1,0 +1,50 @@
+body {
+    background-color: #08011c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+#canvas {
+    padding: 25px;
+}
+
+.row {
+    display: flex;  /* forces the tiles to sit next to each other */
+    gap: 10px; /* adds 5px gap between the tiles */
+    justify-content: center;
+    margin: 10px;
+}
+
+.tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+
+    height: 60px;
+    width: 60px;
+    font-size: 48px;
+    background-color: #a1a1a1;
+    font-weight: bold;
+
+}
+
+.input {
+    cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+
+    height: 50px;
+    width: 50px;
+    font-size: 45px;
+    font-weight: bold;
+    background-color: inherit;
+    justify-content: center;
+    align-items: center;
+    caret-color: #a1a1a1;
+    overflow: hidden;
+    border: none;
+}
