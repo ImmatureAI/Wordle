@@ -14,37 +14,23 @@ body {
     display: flex;  /* forces the tiles to sit next to each other */
     gap: 10px; /* adds 5px gap between the tiles */
     justify-content: center;
+    align-items: center;
     margin: 10px;
 }
 
 .tile {
+    height: 60px;
+    width: 60px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    text-transform: uppercase;
-
-    height: 60px;
-    width: 60px;
-    font-size: 48px;
     background-color: #a1a1a1;
-    font-weight: bold;
-
-}
-
-.input {
-    cursor: default;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-
-    height: 50px;
-    width: 50px;
+    
+    color: white;
+    padding: 0px;
+    text-align: center;
+    text-transform: uppercase;
     font-size: 45px;
     font-weight: bold;
-    background-color: inherit;
-    justify-content: center;
-    align-items: center;
-    caret-color: #a1a1a1;
-    overflow: hidden;
-    border: none;
 }
