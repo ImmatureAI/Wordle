@@ -1,11 +1,8 @@
-from colorama import init, Fore, Back
 import random
 import nltk
 from nltk.corpus import words
-
-nltk.download('words')
-allWords = words.words()
-fiveLetterWords = [w.upper() for w in allWords if len(w)==5]
+from flask import Flask, request, jsonify, session
+from flask_cors import CORS
 class Node:
     def __init__(self):
         self.arr = [None for i in range(26)]
@@ -32,70 +29,71 @@ class Trie:
                 return False
             temp = temp.arr[i]
         return temp.flag
+    
+app = Flask(__name__)
+CORS(app, supports_credentials=True)
+app.secret_key = 'Just_having_some_fun_here'
+
+nltk.download('words')
+allWords = words.words()
+fiveLetterWords = [w.upper() for w in allWords if len(w)==5]
 
 database = Trie()
 for wd in fiveLetterWords:
     database.pushWord(wd)
 
-word = random.choice(fiveLetterWords)
-letters = {}
-for char in word:
-    if letters.get(char) == None:
-        letters[char] = 1
-    else:
-        letters[char] += 1
-print(word)
+@app.route('/start', methods = ['Post'])
+def startGame():
+    word = random.choice(fiveLetterWords)
 
-done = False
-while (done==False) :
-    init(autoreset=True)
-    guess = input().upper()
+    currLetters = {}
+    for char in word:
+        if currLetters.get(char) == None:
+            currLetters[char] = 1
+        else:
+            currLetters[char] += 1
+    
+    session['word'] = word
+    session['freq_map'] = currLetters 
 
-    if len(guess) != 5:
-        print("\033[1A\033[2K\r", end="")
-        print(Fore.RED + "Word is not 5 letters long", end = "\r")
-        continue
+    return jsonify({"message" : "Game starts"})
 
-    try:
-        if not database.findWord(guess):
-            print("\033[1A\033[2K\r", end="") #this is so that it writes in place
-            print(Fore.RED + "Not in word list", end = "\r")
-            continue
-    except:
-        print("\033[1A\033[2K\r", end="") #this is so that it writes in place
-        print(Fore.RED + "Only alphabets allowed", end = "\r")
-        continue
 
-    print("\033[1A\033[2K\r", end="")
-    currLetters = letters.copy()
-    cols = [None for _ in range(5)]
+@app.route('/guess', methods = ['Post'])
+def checkGuess():
+    data = request.get_json()
+    guessWord = data['guess'].strip().upper()
+    realWord = session.get('word').upper()
+    currLetters = (session.get('freq_map')).copy()
+
+    # if not database.findWord(guessWord):
+    #     return jsonify({"message" : "Not in library"})
+    if not (guessWord in fiveLetterWords):
+        return jsonify({"message" : "Not in library"})
+    
+    colors = [None] * 5
     for i  in range(5):
-        if word[i]==guess[i]:
-            currLetters[word[i]] -= 1
-            cols[i] = 'g'
-            if currLetters[guess[i]] == 0:
-                del currLetters[guess[i]]
+        if realWord[i]==guessWord[i]:
+            currLetters[realWord[i]] -= 1
+            colors[i] = 'green'
+            if currLetters[guessWord[i]] == 0:
+                del currLetters[guessWord[i]]
         
     for i in range(5):
-        if cols[i] == 'g':
+        if colors[i] == 'green':
             continue
-        if currLetters.get(guess[i]) != None:
-            currLetters[guess[i]] -= 1
-            if currLetters[guess[i]] == 0:
-                del currLetters[guess[i]]
-            cols[i] = 'y'
+        if currLetters.get(guessWord[i]) != None:
+            currLetters[guessWord[i]] -= 1
+            if currLetters[guessWord[i]] == 0:
+                del currLetters[guessWord[i]]
+            colors[i] = '#e8cb2a'
         else:
-            cols[i] = 'w'
+            colors[i] = 'black'
+    
+    return jsonify({
+        "colors" : colors,
+        "message" : 'valid'
+    })
 
-    for i in range(5):
-        if cols[i] == 'g':
-            print(Fore.GREEN + guess[i], end="")
-        elif cols[i] == 'y':
-            print(Fore.YELLOW + guess[i], end="")
-        else:
-            print(Fore.WHITE + guess[i], end="")
-    print("")
-
-    if guess==word:
-        done = True
-        print(Fore.LIGHTGREEN_EX+"You won")
+if __name__ == '__main__':
+    app.run(debug=True)
