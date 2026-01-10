@@ -93,7 +93,12 @@ async function checkWord(){
         const tileNum = currentRow * 5 + i;
         const tile = document.getElementById('tile_' + tileNum);
         tile.setAttribute("style", `background-color: ${colorArray[i]}`);
+        await sleep(50);
     }
     currentRow++;
     currentColumn = 0;
+}
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve,ms));
 }
