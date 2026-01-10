@@ -2,7 +2,9 @@ const apiURL = "http://127.0.0.1:5000"
 
 let currentRow = 0;
 let currentColumn = 0;
+let score = 0;
 const board = document.getElementById("canvas");
+const scoreBoard = document.getElementById("score");
 for(let i = 0; i < 6; i++){
     const rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row');
@@ -93,12 +95,37 @@ async function checkWord(){
         const tileNum = currentRow * 5 + i;
         const tile = document.getElementById('tile_' + tileNum);
         tile.setAttribute("style", `background-color: ${colorArray[i]}`);
-        await sleep(50);
+        await sleep(100);
+    }
+    currentColumn = 0;
+
+    if(data.message === "complete"){
+        currentRow = 0;
+        score += 10;
+        scoreBoard.innerText = "Your score: " + score;
+        cleanBoard();
+        initGame();
+        return;
     }
     currentRow++;
-    currentColumn = 0;
+    if(currentRow === 6){
+        alert("You lost!!!");
+        scoreBoard.innerText = "Your final score is " + score;
+    }
 }
 
 function sleep(ms){
     return new Promise(resolve => setTimeout(resolve,ms));
+}
+
+function cleanBoard(){
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 5; j++) {
+            const tileNum = i * 5 + j;
+            const tileElement = document.getElementById('tile_' + tileNum);
+            tileElement.innerText = '';
+            tileElement.removeAttribute('data');
+            tileElement.setAttribute("style", `background-color: #a1a1a1`);
+        }
+    }
 }

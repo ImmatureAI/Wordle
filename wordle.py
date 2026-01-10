@@ -56,7 +56,7 @@ def startGame():
     session['word'] = word
     session['freq_map'] = currLetters 
 
-    return jsonify({"message" : "Game starts"})
+    return jsonify({"message" : "Game starts, word is " + word})
 
 
 @app.route('/guess', methods = ['Post'])
@@ -66,9 +66,7 @@ def checkGuess():
     realWord = session.get('word').upper()
     currLetters = (session.get('freq_map')).copy()
 
-    # if not database.findWord(guessWord):
-    #     return jsonify({"message" : "Not in library"})
-    if not (guessWord in fiveLetterWords):
+    if not database.findWord(guessWord):
         return jsonify({"message" : "Not in library"})
     
     colors = [None] * 5
@@ -78,7 +76,8 @@ def checkGuess():
             colors[i] = 'green'
             if currLetters[guessWord[i]] == 0:
                 del currLetters[guessWord[i]]
-        
+    
+    correct = True    
     for i in range(5):
         if colors[i] == 'green':
             continue
@@ -89,11 +88,17 @@ def checkGuess():
             colors[i] = '#e8cb2a'
         else:
             colors[i] = 'black'
-    
-    return jsonify({
-        "colors" : colors,
-        "message" : 'valid'
-    })
+        correct = False
+    if not correct:    
+        return jsonify({
+            "colors" : colors,
+            "message" : 'valid'
+        })
+    else:
+        return jsonify({
+            "colors" : colors,
+            "message" : 'complete'
+        })
 
 if __name__ == '__main__':
     app.run(debug=True)
