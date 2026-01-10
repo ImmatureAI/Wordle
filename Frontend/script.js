@@ -1,5 +1,6 @@
 const apiURL = "http://127.0.0.1:5000"
 
+let typingAllowed = false;
 let currentRow = 0;
 let currentColumn = 0;
 let score = 0;
@@ -25,12 +26,18 @@ async function initGame(){
     });
     const data = await response.json();
     console.log(data.message);
+    board.style.display = "initial"
+    cleanBoard();
+    typingAllowed = true;
+    currentRow = 0;
+    currentColumn = 0;
+    scoreBoard.innerText = "Your score: " + score;
 }
 
 initGame();
 
 document.addEventListener('keydown', (e) => {
-    if(currentRow >= 6) return;
+    if(currentRow >= 6 || !typingAllowed) return;
 
     const key = e.key;
     if(key === 'Enter'){
@@ -68,6 +75,8 @@ function addLetter(str){
 }
 
 async function checkWord(){
+    typingAllowed = false;
+
     let str = '';
     for(let i = 0; i < 5; i++){
         const tileElement = document.getElementById('tile_' + (currentRow*5 + i));
@@ -83,7 +92,6 @@ async function checkWord(){
     });
 
     const data = await response.json();
-
     if(data.message === "Not in library"){
         alert("Not in word list");
         return;
@@ -98,20 +106,19 @@ async function checkWord(){
         await sleep(100);
     }
     currentColumn = 0;
+    currentRow++;
 
     if(data.message === "complete"){
-        currentRow = 0;
-        score += 10;
+        score += 7 - (currentRow);
         scoreBoard.innerText = "Your score: " + score;
-        cleanBoard();
         initGame();
         return;
     }
-    currentRow++;
-    if(currentRow === 6){
+    else if(currentRow === 6){
         alert("You lost!!!");
-        scoreBoard.innerText = "Your final score is " + score;
+        gameLost();
     }
+    typingAllowed = true;
 }
 
 function sleep(ms){
@@ -128,4 +135,15 @@ function cleanBoard(){
             tileElement.setAttribute("style", `background-color: #a1a1a1`);
         }
     }
+}
+
+async function gameLost(){
+    typingAllowed = false;
+    board.style.display = "none";
+    scoreBoard.innerText = "Your final score is " + score;
+    await sleep(2000);
+    score = 0;
+    alert("Restart game ?");
+    cleanBoard();
+    initGame();
 }
