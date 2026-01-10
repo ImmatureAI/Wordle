@@ -37,6 +37,9 @@ app.secret_key = 'Just_having_some_fun_here'
 nltk.download('words')
 allWords = words.words()
 fiveLetterWords = [w.upper() for w in allWords if len(w)==5]
+for w in allWords:
+    if len(w) == 4:
+        fiveLetterWords.append(w.upper() + 'S')
 
 database = Trie()
 for wd in fiveLetterWords:
