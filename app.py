@@ -86,7 +86,7 @@ def checkGuess():
         return jsonify({"message" : "Not in library"})
     
     if guessWord in guesses:
-        return jsonify({"message : already guessed"})
+        return jsonify({"message" : "already guessed"})
     
     colors = [None] * 5
     for i  in range(5):
@@ -110,6 +110,7 @@ def checkGuess():
         correct = False
     if not correct:    
         guesses.append(guessWord)
+        session['current_guesses'] = guesses
         return jsonify({
             "colors" : colors,
             "message" : 'valid'
