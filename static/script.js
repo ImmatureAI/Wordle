@@ -97,6 +97,7 @@ async function checkWord(){
     const data = await response.json();
     if(data.message === "Not in library"){
         alert("Not in word list");
+        typingAllowed = true;
         return;
     }
 
