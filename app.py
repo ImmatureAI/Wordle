@@ -68,7 +68,8 @@ def startGame():
             currLetters[char] += 1
     
     session['word'] = word
-    session['freq_map'] = currLetters 
+    session['freq_map'] = currLetters
+    session['current_guesses'] = [] 
 
     return jsonify({"message" : "Game starts, word is " + word})
 
@@ -79,9 +80,13 @@ def checkGuess():
     guessWord = data['guess'].strip().upper()
     realWord = session.get('word').upper()
     currLetters = (session.get('freq_map')).copy()
+    guesses = session.get('current_guesses')
 
     if not database.findWord(guessWord):
         return jsonify({"message" : "Not in library"})
+    
+    if guessWord in guesses:
+        return jsonify({"message : already guessed"})
     
     colors = [None] * 5
     for i  in range(5):
@@ -104,6 +109,7 @@ def checkGuess():
             colors[i] = 'black'
         correct = False
     if not correct:    
+        guesses.append(guessWord)
         return jsonify({
             "colors" : colors,
             "message" : 'valid'

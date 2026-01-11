@@ -101,6 +101,12 @@ async function checkWord(){
         return;
     }
 
+    if(data.message === "already guessed"){
+        alert("Word already guessed");
+        typingAllowed = true;
+        return;
+    }
+
     const colorArray = data.colors;
 
     for(let i = 0; i < 5; i++){
