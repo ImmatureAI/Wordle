@@ -188,7 +188,7 @@ function cleanLetters(){
             const letterTile = document.getElementById('letter_' + String.fromCharCode(i));
             letterTile.style.backgroundColor = "#a1a1a1";
         }
-        n = i;
+        n = i - 1;
     }
 }
 
