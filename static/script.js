@@ -34,11 +34,24 @@ for(let n = 65; n <= 90; n++){
         letterTile.setAttribute('class', 'letterTile');
         letterTile.setAttribute('id', 'letter_' + c);
         letterTile.innerText = c;
+        letterTile.addEventListener('click', addLetter(c));
         letterRow.appendChild(letterTile);
     }
     n = i-1;
     letterBox.appendChild(letterRow);
 }
+
+const enter = document.getElementById('div');
+enter.setAttribute('class', 'submit');
+enter.addEventListener('click', checkWord());
+enter.innerText = "Enter";
+letterBox.appendChild(enter);
+
+const backspace = document.getElementById('div');
+backspace.setAttribute('class', 'submit');
+backspace.addEventListener('click', deleteLetter());
+backspace.innerText = "Back"
+letterBox.appendChild(backspace);
 
 async function initGame(){
     const response = await fetch(`${apiURL}/start`, {
@@ -93,7 +106,7 @@ function deleteLetter(){
 }
 
 function addLetter(str){
-    if (currentColumn === 5) return;
+    if (currentColumn >= 5 || currentRow >= 6 || !typingAllowed) return;
     const tileNum = currentRow * 5 + currentColumn;
     const tileElement = document.getElementById('tile_' + tileNum);
     tileElement.innerText = str;
@@ -108,6 +121,12 @@ async function checkWord(){
         const tileElement = document.getElementById('tile_' + (currentRow*5 + i));
         str += tileElement.textContent;
     }
+    if(str.length < 5){
+        alert("Word is not 5 letters wrong");
+        typingAllowed = true;
+        return;
+    }
+
     const response = await fetch(`${apiURL}/guess`, {
         method : "Post",
         headers : {

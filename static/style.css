@@ -65,3 +65,15 @@ button {
 h2 {
     padding: 0;
 }
+
+.submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #a1a1a1;
+    color: white;
+    width: 120px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
