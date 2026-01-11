@@ -34,3 +34,11 @@ body {
     font-size: 45px;
     font-weight: bold;
 }
+
+button {
+    /* display: none; */
+    background-color: #080942;
+    border-radius: 20px;
+    height: 50px;
+    cursor: pointer;
+}

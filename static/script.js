@@ -6,6 +6,7 @@ let currentColumn = 0;
 let score = 0;
 const board = document.getElementById("canvas");
 const scoreBoard = document.getElementById("score");
+const restartButton = document.getElementById("restart")
 for(let i = 0; i < 6; i++){
     const rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row');
@@ -26,6 +27,8 @@ async function initGame(){
     });
     const data = await response.json();
     console.log(data.message);
+
+    restartButton.style.display = 'none'
     board.style.display = "initial"
     cleanBoard();
     typingAllowed = true;
@@ -141,9 +144,8 @@ async function gameLost(){
     typingAllowed = false;
     board.style.display = "none";
     scoreBoard.innerText = "Your final score is " + score;
-    await sleep(2000);
+    restartButton.style.display = 'initial';
     score = 0;
-    alert("Restart game ?");
-    cleanBoard();
-    initGame();
 }
+
+restartButton.addEventListener('click', initGame)
