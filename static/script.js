@@ -38,6 +38,7 @@ async function initGame(){
     currentRow = 0;
     currentColumn = 0;
     scoreBoard.innerText = "Your score: " + score;
+    wordCount.innerText = "Number of words: " + wordNum;
 }
 
 initGame();
@@ -156,7 +157,8 @@ async function gameLost(){
     typingAllowed = false;
     board.style.display = "none";
     scoreBoard.innerText = "Your final score is " + score;
-    restartButton.style.display = 'initial';
+    wordCount.innerText = "Your final word count is " + wordNum;
+    restartButton.style.display = 'flex';
     score = 0;
     wordNum = 0;
 }
