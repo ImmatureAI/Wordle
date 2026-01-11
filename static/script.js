@@ -42,7 +42,7 @@ for(let n = 65; n <= 90; n++){
 }
 
 const rowElem = document.createElement('div');
-rowElem.setAttribute('class', letterRow);
+rowElem.setAttribute('class', 'letterRow');
 
 const enter = document.createElement('div');
 enter.setAttribute('class', 'submit');
