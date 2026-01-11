@@ -1,8 +1,9 @@
 import random
 import nltk
 from nltk.corpus import words
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, render_template
 from flask_cors import CORS
+import os
 class Node:
     def __init__(self):
         self.arr = [None for i in range(26)]
@@ -32,10 +33,16 @@ class Trie:
     
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-app.secret_key = 'Just_having_some_fun_here'
+app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key_for_dev')
 
-nltk.download('words')
-allWords = words.words()
+try:
+    from nltk.corpus import words
+    allWords = words.words()
+except LookupError:
+    nltk.download('words')
+    from nltk.corpus import words
+    allWords = words.words()
+
 fiveLetterWords = [w.upper() for w in allWords if len(w)==5]
 for w in allWords:
     if len(w) == 4:
@@ -44,6 +51,10 @@ for w in allWords:
 database = Trie()
 for wd in fiveLetterWords:
     database.pushWord(wd)
+
+@app.route('/', methods = ['Post'])
+def home():
+    return render_template('index.html')
 
 @app.route('/start', methods = ['Post'])
 def startGame():
@@ -104,4 +115,5 @@ def checkGuess():
         })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host = '0.0.0.0', port = port)
