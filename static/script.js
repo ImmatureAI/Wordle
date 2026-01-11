@@ -28,7 +28,7 @@ for(let n = 65; n <= 90; n++){
     const letterRow = document.createElement('div');
     letterRow.setAttribute('class', 'letterRow');
     let i;
-    for(i = n; i <= n + 2; i++){
+    for(i = n; i <= n + 2 && i <= 90; i++){
         const c = String.fromCharCode(i);
         const letterTile = document.createElement('div');
         letterTile.setAttribute('class', 'letterTile');
@@ -36,7 +36,7 @@ for(let n = 65; n <= 90; n++){
         letterTile.innerText = c;
         letterRow.appendChild(letterTile);
     }
-    n = i + 1;
+    n = i;
     letterBox.appendChild(letterRow);
 }
 
@@ -184,11 +184,11 @@ function cleanBoard(){
 function cleanLetters(){
     for (let n = 65; n <= 90; n++) {
         let i;
-        for (i = n; i <= n + 2; i++) {
+        for (i = n; i <= n + 2 && i <= 90; i++) {
             const letterTile = document.getElementById('letter_' + String.fromCharCode(i));
             letterTile.style.backgroundColor = "#a1a1a1";
         }
-        n = i + 1;
+        n = i;
     }
 }
 

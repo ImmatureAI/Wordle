@@ -1,5 +1,6 @@
 #game, #letters, body {
     display: flex;
+    justify-content: center;
     align-items: center;
     color: white;
     background-color: #08011c;
@@ -36,18 +37,19 @@
     padding: 0px;
     text-align: center;
     text-transform: uppercase;
-    font-size: 45px;
     font-weight: bold;
 }
 
 .tile {
     height: 60px;
     width: 60px;
+    font-size: 45px;
 }
 
 .letterTile {
     height: 30px;
     width: 30px;
+    font-size: 20px;
 }
 
 button {
