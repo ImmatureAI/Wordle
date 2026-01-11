@@ -4,9 +4,12 @@ let typingAllowed = false;
 let currentRow = 0;
 let currentColumn = 0;
 let score = 0;
+let wordNum = 0;
 const board = document.getElementById("canvas");
 const scoreBoard = document.getElementById("score");
 const restartButton = document.getElementById("restart")
+const wordCount = document.getElementById("count");
+
 for(let i = 0; i < 6; i++){
     const rowElement = document.createElement('div');
     rowElement.setAttribute('class', 'row');
@@ -119,8 +122,10 @@ async function checkWord(){
     currentRow++;
 
     if(data.message === "complete"){
+        wordNum++;
         score += 7 - (currentRow);
         scoreBoard.innerText = "Your score: " + score;
+        wordCount.innerText = "Number of words: " + wordNum;
         initGame();
         return;
     }
@@ -153,6 +158,7 @@ async function gameLost(){
     scoreBoard.innerText = "Your final score is " + score;
     restartButton.style.display = 'initial';
     score = 0;
+    wordNum = 0;
 }
 
 restartButton.addEventListener('click', initGame)
