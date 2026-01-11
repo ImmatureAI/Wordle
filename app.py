@@ -52,7 +52,7 @@ database = Trie()
 for wd in fiveLetterWords:
     database.pushWord(wd)
 
-@app.route('/', methods = ['Post'])
+@app.route('/')
 def home():
     return render_template('index.html')
 
