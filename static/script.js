@@ -34,7 +34,7 @@ for(let n = 65; n <= 90; n++){
         letterTile.setAttribute('class', 'letterTile');
         letterTile.setAttribute('id', 'letter_' + c);
         letterTile.innerText = c;
-        rowElement.appendChild(letterTile);
+        letterRow.appendChild(letterTile);
     }
     n = i + 1;
     letterBox.appendChild(letterRow);
@@ -144,7 +144,7 @@ async function checkWord(){
         const currColor = letterTile.style.backgroundColor;
         if(colorArray[i] === currColor || currColor === "green") continue;
         if(currColor === "yellow" && (colorArray[i] === "black")) continue;
-        letterTile.style.accentColor.backgroundColor = colorArray[i];
+        letterTile.style.backgroundColor = colorArray[i];
     }
 
     currentColumn = 0;
