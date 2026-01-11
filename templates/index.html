@@ -5,11 +5,14 @@
         <link rel = "stylesheet" href = "{{url_for('static', filename = 'style.css')}}">
     </head>
     <body>
-        <h1 style="color: white;">WORDLE MARATHON</h1>
-        <div id = "canvas"></div>
-        <h1 id = "count">Number of words: 0</h1>
-        <h1 id = "score">Your Score: 0</h1>
-        <button type="button" id = "restart">RESTART</button>
+        <div id = "game">
+            <h1 style="color: white;">WORDLE MARATHON</h1>
+            <div id = "canvas"></div>
+            <h1 id = "count">Number of words: 0</h1>
+            <h1 id = "score">Your Score: 0</h1>
+            <button type="button" id = "restart">RESTART</button>
+        </div>
+        <div id = "letters"></div>
         <script src = "{{url_for('static', filename = 'script.js')}}"></script>
     </body>
 </html>

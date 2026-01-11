@@ -1,27 +1,32 @@
-body {
-    background-color: #08011c;
+#game, #letters, body {
     display: flex;
-    flex-direction: column;
     align-items: center;
     color: white;
+    background-color: #08011c;
+}
+
+#game, #letters {
+    flex-direction: column;
 }
 
 #canvas {
-    padding: 25px;
+    padding: 15px;
 }
 
-.row {
+.row, .letterRow {
     display: flex;  /* forces the tiles to sit next to each other */
-    gap: 10px; /* adds 5px gap between the tiles */
     justify-content: center;
     align-items: center;
     margin: 10px;
 }
+.letterRow {
+    gap: 5px;
+}
+.row {
+    gap: 10px; /* adds 5px gap between the tiles */
+}
 
-.tile {
-    height: 60px;
-    width: 60px;
-
+.tile, .letterTile {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,6 +38,16 @@ body {
     text-transform: uppercase;
     font-size: 45px;
     font-weight: bold;
+}
+
+.tile {
+    height: 60px;
+    width: 60px;
+}
+
+.letterTile {
+    height: 30px;
+    width: 30px;
 }
 
 button {

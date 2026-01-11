@@ -9,6 +9,7 @@ const board = document.getElementById("canvas");
 const scoreBoard = document.getElementById("score");
 const restartButton = document.getElementById("restart")
 const wordCount = document.getElementById("count");
+const letterBox = document.getElementById("letters");
 
 for(let i = 0; i < 6; i++){
     const rowElement = document.createElement('div');
@@ -23,6 +24,22 @@ for(let i = 0; i < 6; i++){
     board.appendChild(rowElement);
 }
 
+for(let n = 65; n <= 90; n++){
+    const letterRow = document.createElement('div');
+    letterRow.setAttribute('class', 'letterRow');
+    let i;
+    for(i = n; i <= n + 2; i++){
+        const c = String.fromCharCode(i);
+        const letterTile = document.createElement('div');
+        letterTile.setAttribute('class', 'letterTile');
+        letterTile.setAttribute('id', 'letter_' + c);
+        letterTile.innerText = c;
+        rowElement.appendChild(letterTile);
+    }
+    n = i + 1;
+    letterBox.appendChild(letterRow);
+}
+
 async function initGame(){
     const response = await fetch(`${apiURL}/start`, {
         method: "Post",
@@ -32,8 +49,10 @@ async function initGame(){
     console.log(data.message);
 
     restartButton.style.display = 'none'
-    board.style.display = "initial"
+    board.style.display = "initial";
+    letterBox.style.display = 'initial';
     cleanBoard();
+    cleanLetters();
     typingAllowed = true;
     currentRow = 0;
     currentColumn = 0;
@@ -119,6 +138,15 @@ async function checkWord(){
         tile.setAttribute("style", `background-color: ${colorArray[i]}`);
         await sleep(100);
     }
+
+    for(let i = 0; i < 5; i++){
+        const letterTile = document.getElementById('letter_' + str[i]);
+        const currColor = letterTile.style.backgroundColor;
+        if(colorArray[i] === currColor || currColor === "green") continue;
+        if(currColor === "yellow" && (colorArray[i] === "black")) continue;
+        letterTile.style.accentColor.backgroundColor = colorArray[i];
+    }
+
     currentColumn = 0;
     currentRow++;
 
@@ -153,8 +181,20 @@ function cleanBoard(){
     }
 }
 
+function cleanLetters(){
+    for (let n = 65; n <= 90; n++) {
+        let i;
+        for (i = n; i <= n + 2; i++) {
+            const letterTile = document.getElementById('letter_' + String.fromCharCode(i));
+            letterTile.style.backgroundColor = "#a1a1a1";
+        }
+        n = i + 1;
+    }
+}
+
 async function gameLost(){
     typingAllowed = false;
+    letterBox.style.display = "none";
     board.style.display = "none";
     scoreBoard.innerText = "Your final score is " + score;
     wordCount.innerText = "Your final word count is " + wordNum;
