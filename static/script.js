@@ -41,13 +41,13 @@ for(let n = 65; n <= 90; n++){
     letterBox.appendChild(letterRow);
 }
 
-const enter = document.getElementById('div');
+const enter = document.createElement('div');
 enter.setAttribute('class', 'submit');
 enter.addEventListener('click', checkWord());
 enter.innerText = "Enter";
 letterBox.appendChild(enter);
 
-const backspace = document.getElementById('div');
+const backspace = document.createElement('div');
 backspace.setAttribute('class', 'submit');
 backspace.addEventListener('click', deleteLetter());
 backspace.innerText = "Back"
