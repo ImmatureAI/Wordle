@@ -36,7 +36,7 @@ for(let n = 65; n <= 90; n++){
         letterTile.innerText = c;
         letterRow.appendChild(letterTile);
     }
-    n = i;
+    n = i-1;
     letterBox.appendChild(letterRow);
 }
 
@@ -149,7 +149,7 @@ async function checkWord(){
 
     currentColumn = 0;
     currentRow++;
-
+    
     if(data.message === "complete"){
         wordNum++;
         score += 7 - (currentRow);
