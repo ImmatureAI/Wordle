@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Wordle Marathon</title>
-        <link rel = "stylesheet" href = "style.css">
+        <link rel = "stylesheet" href = "{{url_for('static', style.css)}}">
     </head>
     <body>
         <h1 style="color: white;">Wordle Marathon</h1>
@@ -18,6 +18,6 @@
         <div id = "score">
             <h2>Your Score: 0</h2>
         </div>
-        <script src = "script.js"></script>
+        <script src = "{{url_for('static', script.js)}}"></script>
     </body>
 </html>
