@@ -34,24 +34,29 @@ for(let n = 65; n <= 90; n++){
         letterTile.setAttribute('class', 'letterTile');
         letterTile.setAttribute('id', 'letter_' + c);
         letterTile.innerText = c;
-        letterTile.addEventListener('click', addLetter(c));
+        letterTile.addEventListener('click', () => addLetter(c));
         letterRow.appendChild(letterTile);
     }
     n = i-1;
     letterBox.appendChild(letterRow);
 }
 
+const rowElem = document.createElement('div');
+rowElem.setAttribute('class', letterRow);
+
 const enter = document.createElement('div');
 enter.setAttribute('class', 'submit');
-enter.addEventListener('click', checkWord());
+enter.addEventListener('click', checkWord);
 enter.innerText = "Enter";
-letterBox.appendChild(enter);
+rowElem.appendChild(enter);
 
 const backspace = document.createElement('div');
 backspace.setAttribute('class', 'submit');
-backspace.addEventListener('click', deleteLetter());
+backspace.addEventListener('click', deleteLetter);
 backspace.innerText = "Back"
-letterBox.appendChild(backspace);
+rowElem.appendChild(backspace);
+
+letterBox.appendChild(rowElem);
 
 async function initGame(){
     const response = await fetch(`${apiURL}/start`, {
@@ -122,7 +127,7 @@ async function checkWord(){
         str += tileElement.textContent;
     }
     if(str.length < 5){
-        alert("Word is not 5 letters wrong");
+        alert("Word is not 5 letters long");
         typingAllowed = true;
         return;
     }
