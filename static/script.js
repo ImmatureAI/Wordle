@@ -28,7 +28,7 @@ for(let n = 65; n <= 90; n++){
     const letterRow = document.createElement('div');
     letterRow.setAttribute('class', 'letterRow');
     let i;
-    for(i = n; i <= n + 2 && i <= 90; i++){
+    for(i = n; i <= n + 12 && i <= 90; i++){
         const c = String.fromCharCode(i);
         const letterTile = document.createElement('div');
         letterTile.setAttribute('class', 'letterTile');
@@ -56,8 +56,8 @@ async function initGame(){
     typingAllowed = true;
     currentRow = 0;
     currentColumn = 0;
-    scoreBoard.innerText = "Your score: " + score;
-    wordCount.innerText = "Number of words: " + wordNum;
+    scoreBoard.innerText = "Score: " + score;
+    wordCount.innerText = "Word: " + wordNum;
 }
 
 initGame();
@@ -183,12 +183,8 @@ function cleanBoard(){
 
 function cleanLetters(){
     for (let n = 65; n <= 90; n++) {
-        let i;
-        for (i = n; i <= n + 2 && i <= 90; i++) {
-            const letterTile = document.getElementById('letter_' + String.fromCharCode(i));
-            letterTile.style.backgroundColor = "#a1a1a1";
-        }
-        n = i - 1;
+        const letterTile = document.getElementById('letter_' + String.fromCharCode(n));
+        letterTile.style.backgroundColor = "#a1a1a1";
     }
 }
 

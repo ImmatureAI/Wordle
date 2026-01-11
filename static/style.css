@@ -4,14 +4,11 @@
     align-items: center;
     color: white;
     background-color: #08011c;
-}
-
-#game, #letters {
     flex-direction: column;
 }
 
 #canvas {
-    padding: 15px;
+    padding: 0px;
 }
 
 .row, .letterRow {
@@ -63,4 +60,8 @@ button {
     width: 150px;
     cursor: pointer;
     padding: 50px;
+}
+
+h2 {
+    padding: 0;
 }
